@@ -6,12 +6,12 @@ public class EnemyStateBase : State
 {
     protected Enemy enemy;
 
-    public virtual void OnStateEnter(params object[] obj) 
+    public override void OnStateEnter(params object[] obj) 
     {
         enemy = (Enemy)obj[0];
     }
 
-    public virtual void OnStateUpdate() { }
+    public override void OnStateUpdate() { }
 
-    public virtual void OnStateExit() { }
+    public override void OnStateExit() { }
 }

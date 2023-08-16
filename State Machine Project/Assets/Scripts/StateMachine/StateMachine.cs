@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine
 {
     private State _currenState;
 
@@ -21,7 +21,9 @@ public class StateMachine : MonoBehaviour
     public void Update()
     {
         if (_currenState != null)
+        {
             _currenState.OnStateUpdate();
+        }
     }
 
     public void RegisterState(System.Enum stateName, State state)
@@ -29,13 +31,13 @@ public class StateMachine : MonoBehaviour
         stateMachine.Add(stateName, state);
     }
 
-    public void ChangeState(System.Enum state)
+    public void ChangeState(System.Enum state, params object[] list)
     {
         if (_currenState != null)
             _currenState.OnStateExit();
               
         _currenState = stateMachine[state];
     
-        _currenState.OnStateEnter();
+        _currenState.OnStateEnter(list);
     }
 }

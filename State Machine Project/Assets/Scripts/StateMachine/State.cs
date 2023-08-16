@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class State : IState
 {
-    public void OnStateEnter(params object[] obj) { }
+    public  virtual void OnStateEnter(params object[] obj) { }
 
-    public void OnStateUpdate() { }
+    public  virtual void OnStateUpdate() { }
 
-    public void OnStateExit() { }
+    public virtual void OnStateExit() { }
 }
