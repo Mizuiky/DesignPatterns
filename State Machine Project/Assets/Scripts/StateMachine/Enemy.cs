@@ -39,7 +39,8 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     public string _currentAnimatorState;
 
-    public float distanceToLook = 13;
+    public float distanceToLook = 15;
+    public float attackDistance = 8;
 
     public void Start()
     {
@@ -107,11 +108,10 @@ public class Enemy : MonoBehaviour
         ChangeState(EnemyStates.NORMALIDLE, this);
     }
 
-    public void DistancedFromPlayer()
+    public void Attack()
     {
-        ChangeState(EnemyStates.IDLE, this);
-    }
 
+    }
 
     public void OnDrawGizmos()
     {
