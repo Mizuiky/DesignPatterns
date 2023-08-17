@@ -41,6 +41,15 @@ public class Enemy : MonoBehaviour
 
     public float distanceToLook = 15;
     public float attackDistance = 8;
+    public int attackNumber = 3;
+
+    public float timeToAttack = 1f;
+
+    [SerializeField]
+    private GameObject enemyCollider;
+
+    [SerializeField]
+    public GameObject hitBox;
 
     public void Start()
     {
@@ -71,9 +80,12 @@ public class Enemy : MonoBehaviour
         enemyMachine.RegisterState(EnemyStates.WALK, new Walk());
         enemyMachine.RegisterState(EnemyStates.RUN, new Run());
         enemyMachine.RegisterState(EnemyStates.PATROL, new Patrol());
-        enemyMachine.RegisterState(EnemyStates.ATTACK, new Attack());
+        enemyMachine.RegisterState(EnemyStates.ATTACK, new AttackState());
         enemyMachine.RegisterState(EnemyStates.DIZZ, new Dizzy());
         enemyMachine.RegisterState(EnemyStates.DEATH, new Death());
+
+        enemyCollider.SetActive(true);
+        hitBox.SetActive(false);
 
         enemyMachine.ChangeState(EnemyStates.IDLE, this);
     }
@@ -87,9 +99,9 @@ public class Enemy : MonoBehaviour
         _currentAnimatorState = newState;
     }
 
-    public void ChangeState(System.Enum state, params object[] obj)
+    public void ChangeState(System.Enum state)
     {
-        enemyMachine.ChangeState(state , obj);
+        enemyMachine.ChangeState(state , this);
     }
 
     public void LookToPlayer()
@@ -99,19 +111,39 @@ public class Enemy : MonoBehaviour
 
     public IEnumerator Look()
     {
-        Debug.Log("LOOK");
 
         ChangeAnimationState(AnimationStates.SenseSomethingRPT.ToString());
 
         yield return new WaitForSeconds(5f);
 
-        ChangeState(EnemyStates.NORMALIDLE, this);
+        ChangeState(EnemyStates.NORMALIDLE);
     }
 
-    public void Attack()
+    public void Attack(Action attack = null)
+    {
+        StartCoroutine(OnAttack(attack));
+    }
+
+    public IEnumerator OnAttack(Action attack = null)
     {
 
+        enemyCollider.SetActive(false);
+        hitBox.SetActive(true);
+
+        for (int i = 0; i < attackNumber; i++)
+        {
+
+            ChangeAnimationState(AnimationStates.Attack01.ToString());
+
+            yield return new WaitForSeconds(timeToAttack);
+        }
+
+        enemyCollider.SetActive(true);
+        hitBox.SetActive(false);
+
+        attack?.Invoke();
     }
+
 
     public void OnDrawGizmos()
     {

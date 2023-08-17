@@ -472,14 +472,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChestMonster
       objectReference: {fileID: 0}
-    - target: {fileID: 3267990746992732207, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
-      propertyPath: distanceToLook
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 3267990746992732207, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
-      propertyPath: distanceToPlayer
-      value: 25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
@@ -505,7 +497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5897904760416287288, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 15.07
+      value: 14.61
       objectReference: {fileID: 0}
     - target: {fileID: 5897904760416287288, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
       propertyPath: m_LocalRotation.w
