@@ -44,7 +44,6 @@ public class Enemy : MonoBehaviour
     [Header("Enemy settings")]
     public float distanceToLook = 15;
     public float attackDistance = 8;
-    public int attackNumber = 3;
     public float timeToAttack = 1f;
 
     [Header("Patrol")]
@@ -62,6 +61,7 @@ public class Enemy : MonoBehaviour
     public GameObject hitBox;
 
     [Header("Movement")]
+
     private Rigidbody _rb;
 
     [SerializeField]
@@ -116,7 +116,7 @@ public class Enemy : MonoBehaviour
 
     public void ChangeAnimationState(string newState)
     {
-        if (_currentAnimatorState == newState) return;
+         if (_currentAnimatorState == newState) return;
 
         animator.Play(Animator.StringToHash(newState));
 
@@ -158,17 +158,19 @@ public class Enemy : MonoBehaviour
 
     public IEnumerator OnAttack(Action attack = null)
     {
+        Debug.Log("before on attack");
+
+        _currentAnimatorState = AnimationStates.Attack01.ToString();
+
         hitBox.SetActive(true);
 
-        for (int i = 0; i < attackNumber; i++)
-        {
+        animator.Play(Animator.StringToHash(AnimationStates.Attack01.ToString()));
 
-            ChangeAnimationState(AnimationStates.Attack01.ToString());
-
-            yield return new WaitForSeconds(timeToAttack);
-        }
+        yield return new WaitForSeconds(timeToAttack);       
 
         hitBox.SetActive(false);
+
+        Debug.Log("after on attack");
 
         attack?.Invoke();
     }

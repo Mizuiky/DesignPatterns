@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 6bfb2b303d7a9ef4fa766a02e82b046a
+guid: dc4dce760ba8fd744983f51973b32d12
 ModelImporter:
   serializedVersion: 22103
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: Attack01_SwordAndShiled
+    second: Attack02_SwordAndShiled
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -36,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Attack01_SwordAndShiled
+      name: Attack02_SwordAndShiled
       takeName: Take 001
       internalID: 0
       firstFrame: 0
@@ -53,9 +53,9 @@ ModelImporter:
       loopBlendPositionY: 1
       loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
-      keepOriginalPositionY: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
-      heightFromFeet: 1
+      heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []

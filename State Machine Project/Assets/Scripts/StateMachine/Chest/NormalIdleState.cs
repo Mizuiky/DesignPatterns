@@ -8,7 +8,6 @@ public class NormalIdleState : EnemyStateBase
 
     public override void OnStateEnter(params object[] obj)
     {
-        Debug.Log("normal state");
 
         base.OnStateEnter(obj);
 
@@ -21,8 +20,6 @@ public class NormalIdleState : EnemyStateBase
     {
         base.OnStateUpdate();
 
-        Debug.Log("distance idle normal" + Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position));
-
         if (Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) > enemy.distanceToLook && !_lockState)
         {
             _lockState = true;
@@ -31,7 +28,6 @@ public class NormalIdleState : EnemyStateBase
         }
         else if(Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < enemy.attackDistance && !_lockState)
         {
-            Debug.Log("attack state");
 
             _lockState = true;
 
@@ -43,6 +39,7 @@ public class NormalIdleState : EnemyStateBase
 
     public override void OnStateExit()
     {
+
         base.OnStateExit();
     }
 }

@@ -9,6 +9,7 @@ public class AttackState : EnemyStateBase
 
     public override void OnStateEnter(params object[] obj)
     {
+
         _lockState = false;
 
         base.OnStateEnter(obj);
@@ -16,6 +17,7 @@ public class AttackState : EnemyStateBase
 
     public override void OnStateUpdate()
     {
+
         base.OnStateUpdate();
 
         if (Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < enemy.attackDistance && !_lockState)
@@ -34,15 +36,19 @@ public class AttackState : EnemyStateBase
 
             enemy.ChangeState(Enemy.EnemyStates.NORMALIDLE);
         }
+
+        enemy.transform.LookAt(GameManager.Instance.Player.transform.position);
     }
 
     public override void OnStateExit()
     {
+
         base.OnStateExit();
     }
 
     public void UnlockState()
     {
+        Debug.Log("unlock");
         _lockState = false;
     }
 }
