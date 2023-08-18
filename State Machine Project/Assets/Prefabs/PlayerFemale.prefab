@@ -2076,7 +2076,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 8944845799199988264}
-  speed: 5
+  defaultSpeed: 5
+  runSpeed: 7
+  _runKey: 304
   rotationSpeed: 50
   animator: {fileID: 6220359888924348258}
 --- !u!54 &8944845799199988264

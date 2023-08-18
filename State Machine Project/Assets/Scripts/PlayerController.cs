@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
 
     public Rigidbody rb;
-    public float speed;
+    public float defaultSpeed;
+    public float runSpeed;
+    public KeyCode _runKey;
 
     private Vector3 _movement;
     private float _horizontal;
@@ -50,12 +52,22 @@ public class PlayerController : MonoBehaviour
 
         if(_movement != Vector3.zero)
         {
+            if(Input.GetKey(_runKey))
+            {
+                _movement *= runSpeed;
 
-            rb.velocity = _movement * speed;
+                animator.Play(_run);
+            }
+            else
+            {
+                _movement *= defaultSpeed;
 
-            Rotate();
+                animator.Play(_move);
+            }
+                
+            rb.velocity = _movement;
 
-            animator.Play(_move);
+            Rotate();          
         }      
         else
         {
