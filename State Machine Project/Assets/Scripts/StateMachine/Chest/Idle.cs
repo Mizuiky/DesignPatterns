@@ -6,37 +6,37 @@ using System;
 
 public class Idle : EnemyStateBase
 {
-    private bool hasInitiated = false;
-    private bool isLooking = false;
+    private bool _hasInitiated = false;
+    private bool _isLooking = false;
 
     public override void OnStateEnter(params object[] obj)
     {
         base.OnStateEnter(obj);
 
-        if(!hasInitiated)
+        if(!_hasInitiated)
         {
             Debug.Log("Idle Enter");
             enemy.transform.DOScale(0, .3f).SetEase(Ease.OutBack).From();
 
-            hasInitiated = true;
+            _hasInitiated = true;
         }
 
         Debug.Log("entered idle");
 
         enemy.ChangeAnimationState(Enemy.AnimationStates.IdleChest.ToString());
 
-        isLooking = false;       
+        _isLooking = false;       
     }
 
     public override void OnStateUpdate()
     {
         base.OnStateUpdate();
 
-        if (Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < enemy.distanceToLook && !isLooking)
+        if (Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < enemy.distanceToLook && !_isLooking)
         { 
             Debug.Log("DISTANCE ENEMY pLAYER");
 
-            isLooking = true;
+            _isLooking = true;
 
             enemy.LookToPlayer();
         }

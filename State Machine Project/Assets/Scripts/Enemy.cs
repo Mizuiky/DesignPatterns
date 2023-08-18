@@ -31,25 +31,45 @@ public class Enemy : MonoBehaviour
         Victory
     }
 
+    #region Public Fields
+
+    [Header("State machine")]
     [HideInInspector]
     public StateMachine enemyMachine;
 
-    public Transform patrolLocations;
-
+    [Header("Animator")]
     public Animator animator;
     public string _currentAnimatorState;
 
+    [Header("Enemy settings")]
     public float distanceToLook = 15;
     public float attackDistance = 8;
     public int attackNumber = 3;
-
     public float timeToAttack = 1f;
 
+    [Header("Patrol")]
+    public Transform patrolLocations;
+
+    #endregion
+
+    #region Private Fields
+
+    [Header("Colliders")]
     [SerializeField]
     private GameObject enemyCollider;
 
     [SerializeField]
     public GameObject hitBox;
+
+    [Header("Movement")]
+    private Rigidbody _rb;
+
+    [SerializeField]
+    private float speed;
+
+    private Vector3 _defaultVelocity = new Vector3(0,0,1);
+
+    #endregion
 
     public void Start()
     {
@@ -66,7 +86,7 @@ public class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        
+        Move();
     }
 
     private void Init()
@@ -84,11 +104,15 @@ public class Enemy : MonoBehaviour
         enemyMachine.RegisterState(EnemyStates.DIZZ, new Dizzy());
         enemyMachine.RegisterState(EnemyStates.DEATH, new Death());
 
+        _rb = GetComponent<Rigidbody>();
+
         enemyCollider.SetActive(true);
         hitBox.SetActive(false);
 
         enemyMachine.ChangeState(EnemyStates.IDLE, this);
     }
+
+    #region Change States
 
     public void ChangeAnimationState(string newState)
     {
@@ -104,6 +128,10 @@ public class Enemy : MonoBehaviour
         enemyMachine.ChangeState(state , this);
     }
 
+    #endregion
+
+    #region Search For Player
+
     public void LookToPlayer()
     {
         StartCoroutine(Look());
@@ -118,6 +146,10 @@ public class Enemy : MonoBehaviour
 
         ChangeState(EnemyStates.NORMALIDLE);
     }
+
+    #endregion
+
+    #region Attack
 
     public void Attack(Action attack = null)
     {
@@ -142,6 +174,13 @@ public class Enemy : MonoBehaviour
         hitBox.SetActive(false);
 
         attack?.Invoke();
+    }
+
+    #endregion
+
+    private void Move()
+    {
+        _rb.velocity = _defaultVelocity * speed * Time.deltaTime;
     }
 
 

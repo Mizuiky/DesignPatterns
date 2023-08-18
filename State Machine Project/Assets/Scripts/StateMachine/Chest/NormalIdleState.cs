@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class NormalIdleState : EnemyStateBase
 {
-    private bool lockState  = false;
+    private bool _lockState  = false;
+
     public override void OnStateEnter(params object[] obj)
     {
         Debug.Log("normal state");
@@ -13,7 +14,7 @@ public class NormalIdleState : EnemyStateBase
 
         enemy.ChangeAnimationState(Enemy.AnimationStates.IdleNormal.ToString());
 
-        lockState = false;
+        _lockState = false;
     }
 
     public override void OnStateUpdate()
@@ -22,17 +23,17 @@ public class NormalIdleState : EnemyStateBase
 
         Debug.Log("distance idle normal" + Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position));
 
-        if (Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) > enemy.distanceToLook && !lockState)
+        if (Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) > enemy.distanceToLook && !_lockState)
         {
-            lockState = true;
+            _lockState = true;
 
             enemy.ChangeState(Enemy.EnemyStates.IDLE);
         }
-        else if(Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < enemy.attackDistance && !lockState)
+        else if(Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < enemy.attackDistance && !_lockState)
         {
             Debug.Log("attack state");
 
-            lockState = true;
+            _lockState = true;
 
             enemy.ChangeState(Enemy.EnemyStates.ATTACK);
         }
