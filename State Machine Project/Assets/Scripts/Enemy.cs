@@ -158,8 +158,6 @@ public class Enemy : MonoBehaviour
 
     public IEnumerator OnAttack(Action attack = null)
     {
-
-        enemyCollider.SetActive(false);
         hitBox.SetActive(true);
 
         for (int i = 0; i < attackNumber; i++)
@@ -170,7 +168,6 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(timeToAttack);
         }
 
-        enemyCollider.SetActive(true);
         hitBox.SetActive(false);
 
         attack?.Invoke();
@@ -183,11 +180,10 @@ public class Enemy : MonoBehaviour
         _rb.velocity = _defaultVelocity * speed * Time.deltaTime;
     }
 
-
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
 
-        Gizmos.DrawRay(this.transform.position, new Vector3(0, 0, 12.72f));
+        Gizmos.DrawRay(this.transform.position, new Vector3(1.5f, 0f, -4.28f));
     }
 }
