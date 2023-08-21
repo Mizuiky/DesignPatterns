@@ -20,13 +20,13 @@ public class NormalIdleState : EnemyStateBase
     {
         base.OnStateUpdate();
 
-        if (Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) > enemy.distanceToLook && !_lockState)
+        if (Vector3.Distance(enemy.transform.position, enemy.target.transform.position) > enemy.distanceToLook && !_lockState)
         {
             _lockState = true;
 
             enemy.ChangeState(Enemy.EnemyStates.IDLE);
         }
-        else if(Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < enemy.attackDistance && !_lockState)
+        else if(Vector3.Distance(enemy.transform.position, enemy.target.transform.position) < enemy.attackDistance && !_lockState)
         {
 
             _lockState = true;
@@ -34,7 +34,7 @@ public class NormalIdleState : EnemyStateBase
             enemy.ChangeState(Enemy.EnemyStates.ATTACK);
         }
 
-        enemy.transform.LookAt(GameManager.Instance.Player.transform.position);
+        enemy.transform.LookAt(enemy.target.transform.position);
     }
 
     public override void OnStateExit()

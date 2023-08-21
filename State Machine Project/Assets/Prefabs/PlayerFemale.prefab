@@ -2081,7 +2081,6 @@ MonoBehaviour:
   _runKey: 306
   rotationSpeed: 50
   animator: {fileID: 6220359888924348258}
-  attackAnimator: {fileID: 0}
   attackKey: 8
 --- !u!54 &8944845799199988264
 Rigidbody:

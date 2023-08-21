@@ -13586,6 +13586,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 470489816}
     m_Modifications:
+    - target: {fileID: 2003574023120515, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3183536739619277016, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
       propertyPath: m_Name
       value: ChestMonster
@@ -13693,10 +13697,6 @@ PrefabInstance:
     - target: {fileID: 5897904760416287288, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6220359888924348259, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
-      propertyPath: attackAnimator
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6526350884010647682, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
       propertyPath: m_Name

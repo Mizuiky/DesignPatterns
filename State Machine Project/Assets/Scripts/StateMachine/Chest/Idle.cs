@@ -32,7 +32,7 @@ public class Idle : EnemyStateBase
 
         base.OnStateUpdate();
 
-        if (Vector3.Distance(enemy.transform.position, GameManager.Instance.Player.transform.position) < enemy.distanceToLook && !_isLooking)
+        if (Vector3.Distance(enemy.transform.position, enemy.target.transform.position) < enemy.distanceToLook && !_isLooking)
         { 
 
             _isLooking = true;

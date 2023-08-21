@@ -45,6 +45,7 @@ public class Enemy : MonoBehaviour
     public float distanceToLook = 15;
     public float attackDistance = 8;
     public float timeToAttack = 1f;
+    public GameObject target;
 
     [Header("Patrol")]
     public Transform patrolLocations;
@@ -61,6 +62,8 @@ public class Enemy : MonoBehaviour
     public GameObject hitBox;
 
     [Header("Movement")]
+
+    public bool isMoving = false;
 
     private Rigidbody _rb;
 
@@ -86,7 +89,8 @@ public class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        Move();
+        if(isMoving)
+            Move();
     }
 
     private void Init()
@@ -97,7 +101,7 @@ public class Enemy : MonoBehaviour
 
         enemyMachine.RegisterState(EnemyStates.IDLE, new Idle());
         enemyMachine.RegisterState(EnemyStates.NORMALIDLE, new NormalIdleState());
-        enemyMachine.RegisterState(EnemyStates.WALK, new Walk());
+        enemyMachine.RegisterState(EnemyStates.WALK, new WalkState());
         enemyMachine.RegisterState(EnemyStates.RUN, new Run());
         enemyMachine.RegisterState(EnemyStates.PATROL, new Patrol());
         enemyMachine.RegisterState(EnemyStates.ATTACK, new AttackState());
@@ -109,6 +113,10 @@ public class Enemy : MonoBehaviour
         enemyCollider.SetActive(true);
         hitBox.SetActive(false);
 
+        isMoving = false;
+
+        target = GameManager.Instance.Player.gameObject;
+
         enemyMachine.ChangeState(EnemyStates.IDLE, this);
     }
 
@@ -116,7 +124,7 @@ public class Enemy : MonoBehaviour
 
     public void ChangeAnimationState(string newState)
     {
-         if (_currentAnimatorState == newState) return;
+        if (_currentAnimatorState == newState) return;
 
         animator.Play(Animator.StringToHash(newState));
 
@@ -179,7 +187,9 @@ public class Enemy : MonoBehaviour
 
     private void Move()
     {
-        _rb.velocity = _defaultVelocity * speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+
+        transform.LookAt(target.transform.position);
     }
 
     public void OnDrawGizmos()
