@@ -20,14 +20,18 @@ public class WalkState : EnemyStateBase
 
         base.OnStateUpdate();
 
-        if(Vector3.Distance(enemy.transform.position, enemy.target.transform.position) < enemy.attackDistance)
+        if(Vector3.Distance(enemy.transform.position, enemy.target.transform.position) < enemy.attackDistance && !_lockState)
         {
             enemy.isMoving = false;
+            _lockState = true;
+
             enemy.ChangeState(Enemy.EnemyStates.ATTACK);
         }
-        else if(Vector3.Distance(enemy.transform.position, enemy.target.transform.position) > enemy.distanceToLook)
+        else if(Vector3.Distance(enemy.transform.position, enemy.target.transform.position) > enemy.distanceToLook && !_lockState)
         {
             enemy.isMoving = false;
+
+            _lockState = true;
             enemy.ChangeState(Enemy.EnemyStates.IDLE);
         }
     }

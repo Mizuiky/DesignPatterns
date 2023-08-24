@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 7d1e5bb9bc81eee4095f91385b5effe1
+guid: 75388ca638448a547a5380d39562dca5
 ModelImporter:
   serializedVersion: 22103
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: JumpFull_Spin_RM_SwordAndShield
+    second: JumpFull_Normal_RM_SwordAndShield
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -36,7 +36,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: JumpFull_Spin_RM_SwordAndShield
+      name: JumpFull_Normal_RM_SwordAndShield
       takeName: Take 001
       internalID: 0
       firstFrame: 0

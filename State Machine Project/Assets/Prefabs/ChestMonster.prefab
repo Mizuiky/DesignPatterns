@@ -708,10 +708,12 @@ MonoBehaviour:
   distanceToLook: 13
   attackDistance: 3
   timeToAttack: 2
+  target: {fileID: 0}
   patrolLocations: {fileID: 0}
   enemyCollider: {fileID: 3183536739619277016}
   hitBox: {fileID: 3268806805353972229}
-  speed: 0
+  isMoving: 0
+  speed: 2
 --- !u!54 &384580463235339774
 Rigidbody:
   m_ObjectHideFlags: 0
