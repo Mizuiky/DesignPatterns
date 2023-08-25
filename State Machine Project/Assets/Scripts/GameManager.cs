@@ -7,9 +7,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField]
-    private PlayerController player;
+    private PlayerController playerController;
 
-    public PlayerController Player { get { return player; } private set { } }
+    [SerializeField]
+    private UIController uiController;
+
+    public PlayerController Player { get { return playerController; } private set { } }
+
+    public UIController UI { get { return uiController; } private set { } }
 
     public void Awake()
     {

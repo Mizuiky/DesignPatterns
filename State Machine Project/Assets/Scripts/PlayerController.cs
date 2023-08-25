@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     public float maxDistance;
 
+    public HealthBase playerHealth;
+
     void Start()
     {
         Init();
@@ -67,6 +69,10 @@ public class PlayerController : MonoBehaviour
             //Debug.Log(" 1 Jump");
             Jump();
         }
+        if(Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            playerHealth.OnDamage(2);
+        }
 
         Attack();
     }
@@ -77,6 +83,11 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Movement 
+
+    public void OnDisable()
+    {
+        playerHealth.onDamage -= Damage;
+    }
 
     private void Move()
     {
@@ -133,6 +144,8 @@ public class PlayerController : MonoBehaviour
         _attackCounter = 0;
         _isAttacking = false;
         _isJumping = false;
+
+        playerHealth.onDamage += Damage;
     }
 
     #region Rotation
@@ -201,5 +214,12 @@ public class PlayerController : MonoBehaviour
             _isJumping = false;
             animator.SetBool("isJumping", false);
         }
+    }
+
+    private void Damage()
+    {
+        Debug.Log("player controller damage");
+
+        //damage animation
     }
 }

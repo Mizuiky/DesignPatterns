@@ -1975,6 +1975,7 @@ GameObject:
   - component: {fileID: 6220359888924348259}
   - component: {fileID: 8944845799199988264}
   - component: {fileID: 8944845799199988267}
+  - component: {fileID: 6157007047424665485}
   m_Layer: 6
   m_Name: PlayerFemale
   m_TagString: Untagged
@@ -2037,10 +2038,11 @@ MonoBehaviour:
   rotationSpeed: 10
   animator: {fileID: 6220359888924348258}
   attackKey: 8
-  jumpForce: 150
-  gravitySpeed: 2.5
+  jumpForce: 180
+  gravitySpeed: 2
   _gravity: -9.81
   maxDistance: 0.09
+  playerHealth: {fileID: 6157007047424665485}
 --- !u!54 &8944845799199988264
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2071,6 +2073,21 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.88, z: 0}
+--- !u!114 &6157007047424665485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6526350884010647682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317474cba58c7ef489fe56d9b3b416a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startLife: 10
+  currentLife: 0
+  healthSlider: {fileID: 0}
 --- !u!1 &6546887637866600523
 GameObject:
   m_ObjectHideFlags: 0

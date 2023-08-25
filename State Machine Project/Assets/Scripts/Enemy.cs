@@ -72,6 +72,8 @@ public class Enemy : MonoBehaviour
 
     private Vector3 _defaultVelocity = new Vector3(0,0,1);
 
+    public HealthBase enemyHealth;
+
     #endregion
 
     public void Start()
@@ -95,6 +97,8 @@ public class Enemy : MonoBehaviour
 
     private void Init()
     {
+        enemyHealth.onDamage += Damage;
+
         enemyMachine = new StateMachine();
 
         enemyMachine.Init();
@@ -118,6 +122,11 @@ public class Enemy : MonoBehaviour
         target = GameManager.Instance.Player.gameObject;
 
         enemyMachine.ChangeState(EnemyStates.IDLE, this);
+    }
+
+    private void OnDisable()
+    {
+        enemyHealth.onDamage -= Damage;
     }
 
     #region Change States
@@ -197,5 +206,10 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
 
         Gizmos.DrawRay(this.transform.position, new Vector3(1.5f, 0f, -4.28f));
+    }
+
+    private void Damage()
+    {
+        //enemy animation
     }
 }
