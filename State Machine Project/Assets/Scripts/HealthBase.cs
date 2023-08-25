@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class HealthBase : MonoBehaviour, IHealth, IDamageable
+public class HealthBase : MonoBehaviour, IDamageable
 {
     public float startLife;
 
@@ -36,13 +36,13 @@ public class HealthBase : MonoBehaviour, IHealth, IDamageable
 
         currentLife -= damage;
 
+        UpdateLife();
+
         if (currentLife <= 0)
         {
             OnKill();
             return;
-        }        
-
-        UpdateLife();
+        }
 
         onDamage?.Invoke();
     }

@@ -26,10 +26,6 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
-    private int _idle = Animator.StringToHash("Idle_Normal_SwordAndShield");
-    private int _move = Animator.StringToHash("MoveFWD_Normal_InPlace_SwordAndShield");
-    private int _run = Animator.StringToHash("SprintFWD_Battle_InPlace_SwordAndShield");
-
     [Header("Attack")]
 
     public KeyCode attackKey;
@@ -52,6 +48,8 @@ public class PlayerController : MonoBehaviour
 
     public HealthBase playerHealth;
 
+    private bool _isDead;
+
     void Start()
     {
         Init();
@@ -59,35 +57,51 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        _horizontal = Input.GetAxis("Horizontal");
-        _vertical = Input.GetAxis("Vertical");
-
-        //Attack();
-
-        if (Input.GetKeyDown(KeyCode.Space) && !_isJumping)
+        if(!_isDead)
         {
-            //Debug.Log(" 1 Jump");
-            Jump();
-        }
-        if(Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            playerHealth.OnDamage(2);
-        }
+            _horizontal = Input.GetAxis("Horizontal");
+            _vertical = Input.GetAxis("Vertical");
 
-        Attack();
+            //Attack();
+
+            if (Input.GetKeyDown(KeyCode.Space) && !_isJumping)
+            {
+                //Debug.Log(" 1 Jump");
+                Jump();
+            }
+            if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                playerHealth.OnDamage(2);
+            }
+
+            Attack();
+        }       
     }
 
     public void FixedUpdate()
     {       
-        Move();
+        if(!_isDead)
+            Move();
     }
 
-    #region Movement 
+    private void Init()
+    {
+        _attackCounter = 0;
+        _isAttacking = false;
+        _isJumping = false;
+        _isDead = false;
+
+        playerHealth.onDamage += Damage;
+        playerHealth.onKill += Kill;
+    }
 
     public void OnDisable()
     {
         playerHealth.onDamage -= Damage;
+        playerHealth.onKill -= Kill;
     }
+
+    #region Movement 
 
     private void Move()
     {
@@ -110,18 +124,25 @@ public class PlayerController : MonoBehaviour
 
             if (_movement == Vector3.zero)
             {
-                //Debug.Log("idle");
-                animator.Play(_idle);
+                Debug.Log("idle");
+                animator.Play(Animator.StringToHash("Idle_Normal_SwordAndShield"));
             }
             else if (Input.GetKey(_runKey))
             {
                 _movementSpeed = runSpeed;
-                animator.Play(_run);
+                animator.speed = 1.3f;
+
+                Debug.Log("sprint");
+
+                animator.Play(Animator.StringToHash("MoveFWD_Normal_InPlace_SwordAndShield"));
             }
             else
             {
                 _movementSpeed = defaultSpeed;
-                animator.Play(_move);
+                animator.speed = 1f;
+
+                Debug.Log("run");
+                animator.Play(Animator.StringToHash("SprintFWD_Battle_InPlace_SwordAndShield 0"));
             }
 
             _movement *= _movementSpeed;
@@ -138,15 +159,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
-
-    private void Init()
-    {
-        _attackCounter = 0;
-        _isAttacking = false;
-        _isJumping = false;
-
-        playerHealth.onDamage += Damage;
-    }
 
     #region Rotation
 
@@ -208,7 +220,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("COLLISION ENTER");
 
-        if(collision.gameObject.CompareTag("Ground"))
+        if(collision.gameObject.CompareTag("Ground") && !_isDead)
         {
             Debug.Log("NOT jumping");
             _isJumping = false;
@@ -221,5 +233,11 @@ public class PlayerController : MonoBehaviour
         Debug.Log("player controller damage");
 
         //damage animation
+    }
+
+    private void Kill()
+    {
+        animator.Play(Animator.StringToHash("Die01_SwordAndShield"));
+        _isDead = true;
     }
 }
