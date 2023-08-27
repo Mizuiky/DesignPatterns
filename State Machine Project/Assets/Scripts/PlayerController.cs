@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -46,9 +45,13 @@ public class PlayerController : MonoBehaviour
 
     public float maxDistance;
 
+    public float _movimentConst;
+    public float _jumpConst;
+
     public HealthBase playerHealth;
 
     private bool _isDead;
+    private bool _canJump;
 
     void Start()
     {
@@ -68,6 +71,7 @@ public class PlayerController : MonoBehaviour
             {
                 //Debug.Log(" 1 Jump");
                 Jump();
+                //_canJump = true;
             }
             if (Input.GetKeyDown(KeyCode.KeypadEnter))
             {
@@ -81,7 +85,15 @@ public class PlayerController : MonoBehaviour
     public void FixedUpdate()
     {       
         if(!_isDead)
+        {
             Move();
+
+            if(_canJump && !_isJumping)
+            {
+                Jump();
+            }
+        }
+            
     }
 
     private void Init()
@@ -90,6 +102,7 @@ public class PlayerController : MonoBehaviour
         _isAttacking = false;
         _isJumping = false;
         _isDead = false;
+        _canJump = false;
 
         playerHealth.onDamage += Damage;
         playerHealth.onKill += Kill;
@@ -120,7 +133,6 @@ public class PlayerController : MonoBehaviour
 
         if (!_isJumping)
         {
-            //Debug.Log("not jumping");
 
             if (_movement == Vector3.zero)
             {
@@ -140,6 +152,8 @@ public class PlayerController : MonoBehaviour
             {
                 _movementSpeed = defaultSpeed;
                 animator.speed = 1f;
+
+                Debug.Log("is running");
 
                 Debug.Log("run");
                 animator.Play(Animator.StringToHash("SprintFWD_Battle_InPlace_SwordAndShield 0"));
@@ -211,19 +225,28 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool("isJumping", true);
 
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Debug.Log("before jump velocity" + rb.velocity);
+
+        //_movement.y = jumpForce;
+
+        rb.velocity += (_movement + (Vector3.up * jumpForce)) * _jumpConst;
+
+        Debug.Log("jump velocity" + rb.velocity);
+
+        //rb.AddForce(((_movement * _movimentConst) + (Vector3.up * jumpForce)) * _jumpConst, ForceMode.VelocityChange);
 
         _isJumping = true;
+        _canJump = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("COLLISION ENTER");
 
         if(collision.gameObject.CompareTag("Ground") && !_isDead)
         {
-            Debug.Log("NOT jumping");
             _isJumping = false;
+            _canJump = false;
+
             animator.SetBool("isJumping", false);
         }
     }

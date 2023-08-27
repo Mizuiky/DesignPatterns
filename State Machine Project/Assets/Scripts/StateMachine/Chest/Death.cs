@@ -6,7 +6,11 @@ public class Death : EnemyStateBase
 {
     public override void OnStateEnter(params object[] obj)
     {
-        base.OnStateUpdate();
+        base.OnStateEnter(obj);
+
+        Debug.Log("death state enter");
+
+        
     }
 
     public override void OnStateUpdate()

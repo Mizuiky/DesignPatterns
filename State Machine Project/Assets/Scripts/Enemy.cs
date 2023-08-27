@@ -74,6 +74,8 @@ public class Enemy : MonoBehaviour
 
     public HealthBase enemyHealth;
 
+    public bool isAlive;
+
     #endregion
 
     public void Start()
@@ -83,7 +85,11 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
-        if(enemyMachine != null)
+        if(Input.GetKeyDown(KeyCode.Insert))
+        {
+            enemyHealth.OnDamage(2f);
+        }
+        if(enemyMachine != null && isAlive)
         {
             enemyMachine.Update();
         }       
@@ -91,13 +97,18 @@ public class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if(isMoving)
+        if(isMoving && isAlive)
             Move();
     }
 
     private void Init()
     {
+        isAlive = true;
+
+        animator.SetBool("isAlive", true);
+
         enemyHealth.onDamage += Damage;
+        enemyHealth.onKill += Kill;
 
         enemyMachine = new StateMachine();
 
@@ -127,6 +138,7 @@ public class Enemy : MonoBehaviour
     private void OnDisable()
     {
         enemyHealth.onDamage -= Damage;
+        enemyHealth.onKill -= Kill;
     }
 
     #region Change States
@@ -211,5 +223,21 @@ public class Enemy : MonoBehaviour
     private void Damage()
     {
         //enemy animation
+    }
+
+    private void Kill()
+    {
+        Debug.Log("kill");
+
+        isAlive = false;
+
+        animator.SetBool("isAlive", false);
+
+        Invoke(nameof(DisableEnemy), 1.1f);
+    }
+
+    private void DisableEnemy()
+    {
+        gameObject.SetActive(false);
     }
 }
