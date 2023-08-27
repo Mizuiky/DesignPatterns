@@ -22,6 +22,8 @@ public class Idle : EnemyStateBase
             _hasInitiated = true;
         }
 
+        enemy.isMoving = false;
+
         enemy.ChangeAnimationState(Enemy.AnimationStates.IdleChest.ToString());
 
         _isLooking = false;       

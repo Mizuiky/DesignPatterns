@@ -9,10 +9,11 @@ public class AttackState : EnemyStateBase
 
     public override void OnStateEnter(params object[] obj)
     {
+        base.OnStateEnter(obj);
 
         _lockState = false;
 
-        base.OnStateEnter(obj);
+        enemy.isMoving = false;     
     }
 
     public override void OnStateUpdate()

@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
         RUN,
         PATROL,
         ATTACK,
-        DIZZ,
+        TAUT,
         DEATH
     }
 
@@ -25,7 +25,6 @@ public class Enemy : MonoBehaviour
         WalkBWD,
         Run,
         Attack01,
-        Dizzy,
         Taunting,
         Die,
         Victory
@@ -120,7 +119,7 @@ public class Enemy : MonoBehaviour
         enemyMachine.RegisterState(EnemyStates.RUN, new Run());
         enemyMachine.RegisterState(EnemyStates.PATROL, new Patrol());
         enemyMachine.RegisterState(EnemyStates.ATTACK, new AttackState());
-        enemyMachine.RegisterState(EnemyStates.DIZZ, new Dizzy());
+        enemyMachine.RegisterState(EnemyStates.TAUT, new TautState());
         enemyMachine.RegisterState(EnemyStates.DEATH, new Death());
 
         _rb = GetComponent<Rigidbody>();
@@ -222,6 +221,7 @@ public class Enemy : MonoBehaviour
 
     private void Damage()
     {
+        ChangeState(EnemyStates.TAUT);
         //enemy animation
     }
 
@@ -231,9 +231,14 @@ public class Enemy : MonoBehaviour
 
         isAlive = false;
 
-        animator.SetBool("isAlive", false);
+        isMoving = false;
 
-        Invoke(nameof(DisableEnemy), 1.1f);
+        ChangeState(EnemyStates.DEATH);     
+    }
+
+    public void InvokeDisable()
+    {
+        Invoke(nameof(DisableEnemy), 1.5f);
     }
 
     private void DisableEnemy()

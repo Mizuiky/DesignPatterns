@@ -10,7 +10,8 @@ public class Death : EnemyStateBase
 
         Debug.Log("death state enter");
 
-        
+        enemy.ChangeAnimationState(Enemy.AnimationStates.Die.ToString());
+        enemy.InvokeDisable();
     }
 
     public override void OnStateUpdate()
