@@ -42,9 +42,10 @@ public class Enemy : MonoBehaviour
 
     [Header("Enemy settings")]
     public float distanceToLook = 15;
-    public float attackDistance = 8;
+    public float attackDistance = 2;
     public float timeToAttack = 1f;
-    public GameObject target;
+    public PlayerController target;
+    public bool isAttacking = false;
 
     [Header("Patrol")]
     public Transform patrolLocations;
@@ -56,9 +57,6 @@ public class Enemy : MonoBehaviour
     [Header("Colliders")]
     [SerializeField]
     private GameObject enemyCollider;
-
-    [SerializeField]
-    public GameObject hitBox;
 
     [Header("Movement")]
 
@@ -84,10 +82,7 @@ public class Enemy : MonoBehaviour
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Insert))
-        {
-            enemyHealth.OnDamage(2f);
-        }
+
         if(enemyMachine != null && isAlive)
         {
             enemyMachine.Update();
@@ -103,8 +98,6 @@ public class Enemy : MonoBehaviour
     private void Init()
     {
         isAlive = true;
-
-        animator.SetBool("isAlive", true);
 
         enemyHealth.onDamage += Damage;
         enemyHealth.onKill += Kill;
@@ -125,11 +118,10 @@ public class Enemy : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
 
         enemyCollider.SetActive(true);
-        hitBox.SetActive(false);
-
+       
         isMoving = false;
 
-        target = GameManager.Instance.Player.gameObject;
+        target = GameManager.Instance.Player;
 
         enemyMachine.ChangeState(EnemyStates.IDLE, this);
     }
@@ -188,19 +180,26 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("before on attack");
 
-        _currentAnimatorState = AnimationStates.Attack01.ToString();
+        isAttacking = true;
 
-        hitBox.SetActive(true);
+        if(target.playerHealth.CurrentLife <= 0)
+        {
+            animator.Play(Animator.StringToHash(AnimationStates.Victory.ToString()));
+        }
+        else
+        {
+            _currentAnimatorState = AnimationStates.Attack01.ToString();
 
-        animator.Play(Animator.StringToHash(AnimationStates.Attack01.ToString()));
+            animator.Play(Animator.StringToHash(AnimationStates.Attack01.ToString()));
 
-        yield return new WaitForSeconds(timeToAttack);       
+            yield return new WaitForSeconds(timeToAttack);
 
-        hitBox.SetActive(false);
+            Debug.Log("after on attack");        
 
-        Debug.Log("after on attack");
+            attack?.Invoke();
+        }
 
-        attack?.Invoke();
+        isAttacking = false;
     }
 
     #endregion

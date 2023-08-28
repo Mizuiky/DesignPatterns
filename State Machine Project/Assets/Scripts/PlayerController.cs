@@ -25,12 +25,6 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
-    [Header("Attack")]
-
-    public KeyCode attackKey;
-    private int _attackCounter;
-    private bool _isAttacking;
-
     [Header("Jump")]
 
     public float jumpForce;
@@ -73,12 +67,8 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 //_canJump = true;
             }
-            if (Input.GetKeyDown(KeyCode.KeypadEnter))
-            {
-                playerHealth.OnDamage(2);
-            }
 
-            Attack();
+            //Attack();
         }       
     }
 
@@ -98,8 +88,6 @@ public class PlayerController : MonoBehaviour
 
     private void Init()
     {
-        _attackCounter = 0;
-        _isAttacking = false;
         _isJumping = false;
         _isDead = false;
         _canJump = false;
@@ -187,36 +175,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region Attack
-
-    private void Attack()
-    {
-        if (Input.GetKeyDown(attackKey))
-        {
-            _isAttacking = true;
-            StartCoroutine(AttackCoroutine());
-        }
-    }
-
-    private IEnumerator AttackCoroutine()
-    {
-        animator.SetInteger("Counter", _attackCounter);
-        animator.SetBool("isAttacking", _isAttacking);
-
-        yield return new WaitForSeconds(.2f);
-
-        _attackCounter++;
-
-        if (_attackCounter >= 2)
-        {
-            _attackCounter = 0;
-        }
-
-        _isAttacking = false;
-        animator.SetBool("isAttacking", _isAttacking);
-    }
     #endregion
 
     private void Jump()

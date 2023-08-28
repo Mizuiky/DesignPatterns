@@ -15,6 +15,8 @@ public class HealthBase : MonoBehaviour, IDamageable
     public Action onDamage;
     public Action onKill;
 
+    public float CurrentLife { get { return currentLife; } }
+
     public void Start()
     {
         Reset();

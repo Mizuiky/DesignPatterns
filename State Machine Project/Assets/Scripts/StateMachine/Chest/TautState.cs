@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TautState : EnemyStateBase
 {
-    private float duration = 2f;
+    private float nextAttackCooldown = 2f;
     private float time;
 
     private bool lockState;
@@ -26,7 +26,7 @@ public class TautState : EnemyStateBase
     {
         base.OnStateUpdate();
 
-        if(time < duration && !lockState)
+        if(time < nextAttackCooldown && !lockState)
         {
             time += Time.deltaTime;
 

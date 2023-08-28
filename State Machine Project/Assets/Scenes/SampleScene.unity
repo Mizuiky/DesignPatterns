@@ -15189,7 +15189,15 @@ PrefabInstance:
     - target: {fileID: 2003574023120515, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 3058315234266142021}
+      objectReference: {fileID: 8944845799199988263}
+    - target: {fileID: 502329013214758919, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
+      propertyPath: attackRange
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 502329013214758919, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
+      propertyPath: attackCooldown
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 3183536739619277016, guid: 7a21f68d310a67c41b35f174ef53949c, type: 3}
       propertyPath: m_Name
       value: ChestMonster
@@ -15262,6 +15270,18 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 470489816}
     m_Modifications:
+    - target: {fileID: 3701606334583913085, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3701606334583913085, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3701606334583913085, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.22
+      objectReference: {fileID: 0}
     - target: {fileID: 5897904760416287288, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -15276,7 +15296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5897904760416287288, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.025
       objectReference: {fileID: 0}
     - target: {fileID: 5897904760416287288, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15310,30 +15330,17 @@ PrefabInstance:
       propertyPath: healthSlider
       value: 
       objectReference: {fileID: 2050820025}
-    - target: {fileID: 6220359888924348259, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
-      propertyPath: jumpForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6220359888924348259, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
-      propertyPath: _jumpConst
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6220359888924348259, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
-      propertyPath: _movimentConst
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6526350884010647682, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
       propertyPath: m_Name
       value: PlayerFemale
       objectReference: {fileID: 0}
+    - target: {fileID: 8401524733236859749, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
+      propertyPath: attackRange
+      value: 1.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
---- !u!1 &3058315234266142021 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6526350884010647682, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
-  m_PrefabInstance: {fileID: 3058315234266142020}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8910583664470650748 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5897904760416287288, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
@@ -15344,7 +15351,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6220359888924348259, guid: d6c999399ba9bd947b2366b1e5391b67, type: 3}
   m_PrefabInstance: {fileID: 3058315234266142020}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3058315234266142021}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee28936bfa4fe6a47a373dca115d196e, type: 3}
