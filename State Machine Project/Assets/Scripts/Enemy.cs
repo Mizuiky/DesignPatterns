@@ -245,11 +245,6 @@ public class Enemy : MonoBehaviour
     private void DisableEnemy()
     {
         gameObject.SetActive(false);
-        Destroy(this.gameObject);
-    }
-
-    public void OnDestroy()
-    {
         drop.OndropItem(transform);
     }
 }
