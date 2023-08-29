@@ -73,6 +73,8 @@ public class Enemy : MonoBehaviour
 
     public bool isAlive;
 
+    public DropItem drop;
+
     #endregion
 
     public void Start()
@@ -243,5 +245,11 @@ public class Enemy : MonoBehaviour
     private void DisableEnemy()
     {
         gameObject.SetActive(false);
+        Destroy(this.gameObject);
+    }
+
+    public void OnDestroy()
+    {
+        drop.OndropItem(transform);
     }
 }
