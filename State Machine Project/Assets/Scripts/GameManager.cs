@@ -13,13 +13,18 @@ public class GameManager : MonoBehaviour
     private UIController uiController;
 
     [SerializeField]
-    private PoolManager poolManager;
+    private EnemyPool poolManager;
+
+    [SerializeField]
+    private ScoreManager scoreManager;
 
     public PlayerController Player { get { return playerController; } private set { } }
 
     public UIController UI { get { return uiController; } private set { } }
 
-    public PoolManager PoolManager { get { return poolManager; } private set { } }
+    public EnemyPool PoolManager { get { return poolManager; } private set { } }
+
+    public ScoreManager ScoreManager { get { return scoreManager; } private set { } }
 
     public void Awake()
     {

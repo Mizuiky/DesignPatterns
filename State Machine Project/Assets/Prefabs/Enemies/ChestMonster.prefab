@@ -1003,7 +1003,7 @@ Transform:
   - {fileID: 588562887}
   - {fileID: 609294371}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &3183536739628677916
 Animator:
@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd6e8106626c4746b89ac18a881ca28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 1.4
+  attackRange: 0.9
   enemiesLayer: Player
   attackPoint: {fileID: 609294371}
   attackCooldown: 0.7

@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
 
     public void Start()
     {
-        Init();
+       
     }
 
     public void Update()
@@ -97,12 +97,8 @@ public class Enemy : MonoBehaviour
             Move();
     }
 
-    private void Init()
+    public void Init()
     {
-        isAlive = true;
-
-        enemyHealth.onDamage += Damage;
-        enemyHealth.onKill += Kill;
 
         enemyMachine = new StateMachine();
 
@@ -120,18 +116,31 @@ public class Enemy : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
 
         enemyCollider.SetActive(true);
-       
-        isMoving = false;
 
         target = GameManager.Instance.Player;
+    }
 
+    public void Activate()
+    {
+        enemyHealth.onDamage += Damage;
+        enemyHealth.onKill += Kill;
+
+        isMoving = false;
+        isAlive = true;
+
+        gameObject.SetActive(true);
         enemyMachine.ChangeState(EnemyStates.IDLE, this);
     }
 
-    private void OnDisable()
+    public void Deactivate()
     {
         enemyHealth.onDamage -= Damage;
         enemyHealth.onKill -= Kill;
+
+        isMoving = false;
+        isAlive = false;
+
+        gameObject.SetActive(false);
     }
 
     #region Change States
@@ -220,6 +229,8 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawRay(this.transform.position, new Vector3(1.5f, 0f, -4.28f));
     }
 
+    #region Damage
+
     private void Damage()
     {
         ChangeState(EnemyStates.TAUT);
@@ -236,6 +247,8 @@ public class Enemy : MonoBehaviour
 
         ChangeState(EnemyStates.DEATH);     
     }
+
+    #endregion
 
     public void InvokeDisable()
     {

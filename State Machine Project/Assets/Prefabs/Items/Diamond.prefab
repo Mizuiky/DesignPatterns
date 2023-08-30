@@ -190,3 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stringToCompare: Player
+  timeToDestroy: 0.3
+  itemPoints: 2
+  collider: {fileID: 4845688867266752219}
+  graphicObject: {fileID: 200348566054141136}

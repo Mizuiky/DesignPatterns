@@ -7,14 +7,15 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public TextMeshProUGUI points;
+    public SOINT score;
 
     public void Start()
     {
-        UpdatePoints("0");
+        points.text = "";
     }
 
-    public void UpdatePoints(string value)
+    public void Update()
     {
-        points.text = value;
+        points.text = score.value.ToString();
     }
 }

@@ -19,6 +19,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private float waveTime;
 
+    private bool _hasFinishedWaves;
+
     public void Start()
     {
         Init();
@@ -26,18 +28,22 @@ public class EnemySpawner : MonoBehaviour
 
     public void Update()
     {
-        if(waveTime < waveSetup[_currentWave].duration)
+        if(!_hasFinishedWaves)
         {
-            waveTime += Time.deltaTime;
-        }
-        else
-        {
-            FinishWave();
-        }
+            if (waveTime < waveSetup[_currentWave].duration)
+            {
+                waveTime += Time.deltaTime;
+            }
+            else
+            {
+                FinishWave();
+            }
+        }      
     }
 
     private void Init()
     {
+        _hasFinishedWaves = false;
 
         _currentWave = 0;
         waveTime = 0;
@@ -66,7 +72,9 @@ public class EnemySpawner : MonoBehaviour
             var enemy = GameManager.Instance.PoolManager.GetEnemy();
             enemy.transform.position = GetRandomPosition();
 
-            nextEnemyTime = GetRandomEnemySpawnTime();
+            enemy.Activate();
+
+            nextEnemyTime = GetNextSpawnTime();
 
             yield return new WaitForSeconds(nextEnemyTime);
         }
@@ -81,7 +89,7 @@ public class EnemySpawner : MonoBehaviour
         return new Vector3(xRange, -0.04f, zRange);
     }
 
-    private float GetRandomEnemySpawnTime()
+    private float GetNextSpawnTime()
     {
         float time = Random.Range(waveSetup[_currentWave].minEnemySpawnTime, waveSetup[_currentWave].maxEnemySpawnTime);
         return time;
@@ -96,7 +104,15 @@ public class EnemySpawner : MonoBehaviour
         _currentWave++;
 
         if(_currentWave < waveSetup.Count)
+        {
+            waveTime = 0;
             StartWave();
+        }        
+        else
+        {
+            _hasFinishedWaves = true;
+            Debug.Log("has finished waves");
+        }
     }
 }
 
