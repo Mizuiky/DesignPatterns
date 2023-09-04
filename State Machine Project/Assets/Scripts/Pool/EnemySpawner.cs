@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
 
-    public List<WaveSetup> waveSetup;
+    public List<SO_WAVE_SETUP> waveSetup;
 
     [Header("Spawn Range")]
     public float maxXposition;
@@ -48,8 +48,6 @@ public class EnemySpawner : MonoBehaviour
         _currentWave = 0;
         waveTime = 0;
 
-        GameManager.Instance.PoolManager.Init();
-
         StartWave();
     }
 
@@ -69,17 +67,20 @@ public class EnemySpawner : MonoBehaviour
 
         for (int i = 0; i < waveSetup[_currentWave].numberOfEnemies; i++)
         {
-            var enemy = GameManager.Instance.PoolManager.GetEnemy();
-            enemy.transform.position = GetRandomPosition();
+            var spawnedEnemy = GameManager.Instance.PoolManager.GetPoolObject(PoolType.Enemy);
 
-            enemy.Activate();
+            if(spawnedEnemy != null)
+            {
+                spawnedEnemy.SetPosition = GetRandomPosition();
 
-            nextEnemyTime = GetNextSpawnTime();
+                spawnedEnemy.OnActivate();
 
-            yield return new WaitForSeconds(nextEnemyTime);
+                nextEnemyTime = GetNextSpawnTime();
+
+                yield return new WaitForSeconds(nextEnemyTime);
+            }            
         }
     }
-
 
     private Vector3 GetRandomPosition()
     {
@@ -99,8 +100,6 @@ public class EnemySpawner : MonoBehaviour
     {
         Debug.Log("finish wave");
 
-        GameManager.Instance.PoolManager.CleanPool();
-
         _currentWave++;
 
         if(_currentWave < waveSetup.Count)
@@ -114,14 +113,4 @@ public class EnemySpawner : MonoBehaviour
             Debug.Log("has finished waves");
         }
     }
-}
-
-[System.Serializable]
-public class WaveSetup
-{
-    public int numberOfEnemies;
-    public float duration;
-    public float minEnemySpawnTime;
-    public float maxEnemySpawnTime;
-    public int waveNumber;
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IActivate
 {
     public enum EnemyStates
     {
@@ -75,6 +75,9 @@ public class Enemy : MonoBehaviour
 
     public DropItem drop;
 
+    public bool IsActive { get; set; }
+    public Vector3 SetPosition { get { return transform.position; } set { transform.position = value; } }
+
     #endregion
 
     public void Start()
@@ -99,10 +102,23 @@ public class Enemy : MonoBehaviour
 
     public void Init()
     {
+        IsActive = false;
 
         enemyMachine = new StateMachine();
 
         enemyMachine.Init();
+
+        enemyHealth.onDamage += Damage;
+        enemyHealth.onKill += Kill;
+
+        isMoving = false;
+        isAlive = true;
+
+        gameObject.SetActive(false);
+    }
+
+    public void OnActivate()
+    {
 
         enemyMachine.RegisterState(EnemyStates.IDLE, new Idle());
         enemyMachine.RegisterState(EnemyStates.NORMALIDLE, new NormalIdleState());
@@ -115,24 +131,16 @@ public class Enemy : MonoBehaviour
 
         _rb = GetComponent<Rigidbody>();
 
-        enemyCollider.SetActive(true);
-
         target = GameManager.Instance.Player;
-    }
 
-    public void Activate()
-    {
-        enemyHealth.onDamage += Damage;
-        enemyHealth.onKill += Kill;
-
-        isMoving = false;
-        isAlive = true;
+        IsActive = true;
 
         gameObject.SetActive(true);
-        enemyMachine.ChangeState(EnemyStates.IDLE, this);
+
+        enemyMachine.ChangeState(EnemyStates.IDLE, this);       
     }
 
-    public void Deactivate()
+    public void OnDeactivate()
     {
         enemyHealth.onDamage -= Damage;
         enemyHealth.onKill -= Kill;
@@ -140,6 +148,7 @@ public class Enemy : MonoBehaviour
         isMoving = false;
         isAlive = false;
 
+        IsActive = false;
         gameObject.SetActive(false);
     }
 
@@ -250,14 +259,10 @@ public class Enemy : MonoBehaviour
 
     #endregion
 
-    public void InvokeDisable()
+    public void InvokeDeactivate()
     {
-        Invoke(nameof(DisableEnemy), 1.5f);
-    }
+        Invoke(nameof(OnDeactivate), 1.5f);
 
-    private void DisableEnemy()
-    {
-        gameObject.SetActive(false);
         drop.OndropItem(transform);
     }
 }

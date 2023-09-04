@@ -8,11 +8,6 @@ public class StateMachine
 
     public Dictionary<System.Enum, State> stateMachine;
 
-    public void Start()
-    {
-        Init();
-    }
-
     public void Init()
     {
         stateMachine = new Dictionary<System.Enum, State>();

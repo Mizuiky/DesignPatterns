@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private UIController uiController;
 
     [SerializeField]
-    private EnemyPool poolManager;
+    private PoolCreator poolManager;
 
     [SerializeField]
     private ScoreManager scoreManager;
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     public UIController UI { get { return uiController; } private set { } }
 
-    public EnemyPool PoolManager { get { return poolManager; } private set { } }
+    public PoolCreator PoolManager { get { return poolManager; } private set { } }
 
     public ScoreManager ScoreManager { get { return scoreManager; } private set { } }
 
