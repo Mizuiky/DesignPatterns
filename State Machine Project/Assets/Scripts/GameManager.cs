@@ -7,24 +7,28 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField]
-    private PlayerController playerController;
+    private PlayerController _playerController;
 
     [SerializeField]
-    private UIController uiController;
+    private UIController _uiController;
 
     [SerializeField]
-    private PoolCreator poolManager;
+    private PoolCreator _poolManager;
 
     [SerializeField]
-    private ScoreManager scoreManager;
+    private ScoreManager _scoreManager;
 
-    public PlayerController Player { get { return playerController; } private set { } }
+    private SaveManager _saveManager;
 
-    public UIController UI { get { return uiController; } private set { } }
+    public PlayerController Player { get { return _playerController; } private set { } }
 
-    public PoolCreator PoolManager { get { return poolManager; } private set { } }
+    public UIController UI { get { return _uiController; } private set { } }
 
-    public ScoreManager ScoreManager { get { return scoreManager; } private set { } }
+    public PoolCreator PoolManager { get { return _poolManager; } private set { } }
+
+    public ScoreManager ScoreManager { get { return _scoreManager; } private set { } }
+
+    public SaveManager SaveManager { get { return _saveManager; } private set { } }
 
     public void Awake()
     {
@@ -35,14 +39,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Start()
+    private void Init()
     {
-        
+        _saveManager = new SaveManager();
+        _saveManager.Init();
     }
 
-    // Update is called once per frame
-    public void Update()
+    public void Start()
     {
-        
+        Init();
     }
 }

@@ -6457,7 +6457,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &763432430
 PrefabInstance:
@@ -8647,7 +8647,6 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194230}
-  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8755,22 +8754,6 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &963194231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e342e3a146f06743aadbf37c1be63ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 8910583664470650748}
-  distance: 6.28
-  high: -2.12
-  speed: 0.5
 --- !u!1001 &972946880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9506,7 +9489,7 @@ Transform:
   m_Children:
   - {fileID: 22500927}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 9.1, y: 1.084, z: 0}
 --- !u!1 &1048458914 stripped
 GameObject:
@@ -19826,7 +19809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3344401218764032760, guid: 509e2b812b09950418366236383e2508, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3344401218764032762, guid: 509e2b812b09950418366236383e2508, type: 3}
       propertyPath: waveSetup.Array.data[0]
@@ -19897,7 +19880,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4266137719126055577, guid: 34065174d4df6da4d89eb1278d8a1d35, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4266137719126055582, guid: 34065174d4df6da4d89eb1278d8a1d35, type: 3}
       propertyPath: m_RootOrder

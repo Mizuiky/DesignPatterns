@@ -34,7 +34,7 @@ public class CollectableBase : MonoBehaviour
     public virtual void OnCollect()
     {
         //give points to player
-        GameManager.Instance.ScoreManager.UpdateScore(itemPoints);
+        GameManager.Instance.ScoreManager.IncreaseScore(itemPoints);
 
         gameObject.SetActive(false);
 

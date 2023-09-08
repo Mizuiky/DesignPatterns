@@ -133,6 +133,8 @@ public class Enemy : MonoBehaviour, IActivate
 
         target = GameManager.Instance.Player;
 
+        enemyHealth.Reset();
+
         IsActive = true;
 
         gameObject.SetActive(true);
