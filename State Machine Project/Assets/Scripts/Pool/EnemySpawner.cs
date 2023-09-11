@@ -13,6 +13,8 @@ public class EnemySpawner : MonoBehaviour
     public float maxZposition;
     public float minZposition;
 
+    public bool EndWave { get { return _hasFinishedWaves; } set { _hasFinishedWaves = value; } }
+
     [SerializeField]
     private int _currentWave;
 

@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ScoreManager : MonoBehaviour
 {
     public SOINT score;
     private int _currentScore;
 
-    private RankSetup[] _rank;
+    private int [] _rank;
 
     void Start()
     {
@@ -26,26 +27,60 @@ public class ScoreManager : MonoBehaviour
         _currentScore = 0;
         score.value = _currentScore;
 
-        GameManager.Instance.SaveManager.OnLoadGame += FillRankList;
+        _rank = new int[3];
+
+        GameManager.Instance.SaveManager.OnLoadGame += FillRank;        
     }
 
-    private void FillRankList(object sender, SaveData data)
+    public void Reset()
     {
+        _currentScore = 0;
+        score.value = _currentScore;
+    }
 
-        for(int i = 0; i < data.rank.Length; i++)
+    private void FillRank(object sender, SaveData data)
+    {
+        if(data.rank.Length > 0)
         {
-            _rank[i] = data.rank[i];
-        }
+            for (int i = 0; i < data.rank.Length; i++)
+            {
+                _rank[i] = data.rank[i];
+            }
+        }     
     }
 
-    private void UpdateScorePoints(int id)
+    public int [] GetRankNumbers()
     {
+
+        for (int i = 0; i < _rank.Length; i++)
+        {
+            if (_rank[i] == default(int))
+            {
+                _rank[i] = _currentScore;
+                break;
+            }            
+        }
 
         for(int i = 0; i < _rank.Length; i++)
         {
-            if (_rank[i].playerId == id)
-                _rank[i].playerId = _currentScore;
+            if (_currentScore > _rank[i])
+            {
+                _rank[i] = _currentScore;
+                break;
+            }                     
         }
+
+        SortRankNumbers();
+
+        return _rank;
+    }
+
+    private void SortRankNumbers()
+    {
+        if(_rank.Length > 1)
+        {
+            _rank = _rank.OrderByDescending(x => x).ToArray();
+        }       
     }
 
     public void IncreaseScore(int points)
@@ -55,13 +90,11 @@ public class ScoreManager : MonoBehaviour
 
         score.value = _currentScore;
     }
-}
 
-public class RankSetup
-{
-    public string PlayerName;
-    public int rankNumber;
-    public int playerId;
+    public void OnDisable()
+    {
+        GameManager.Instance.SaveManager.OnLoadGame -= FillRank;
+    }
 }
 
 

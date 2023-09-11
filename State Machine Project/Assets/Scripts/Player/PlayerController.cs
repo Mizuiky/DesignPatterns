@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -44,6 +45,10 @@ public class PlayerController : MonoBehaviour
 
     public HealthBase playerHealth;
 
+    public Action onPlayerDeath;
+
+    public Transform resetPosition;
+
     private bool _isDead;
     private bool _canJump;
 
@@ -83,7 +88,6 @@ public class PlayerController : MonoBehaviour
                 Jump();
             }
         }
-            
     }
 
     private void Init()
@@ -94,6 +98,16 @@ public class PlayerController : MonoBehaviour
 
         playerHealth.onDamage += Damage;
         playerHealth.onKill += Kill;
+    }
+
+    public void Reset()
+    {
+        _isJumping = false;
+        _isDead = false;
+        _canJump = false;
+
+        playerHealth.Reset();
+        playerHealth.transform.position = resetPosition.position;
     }
 
     public void OnDisable()
@@ -220,5 +234,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.Play(Animator.StringToHash("Die01_SwordAndShield"));
         _isDead = true;
+
+        onPlayerDeath?.Invoke();
     }
 }

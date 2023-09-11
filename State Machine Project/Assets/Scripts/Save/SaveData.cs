@@ -11,7 +11,9 @@ public enum PlayerType
 [System.Serializable]
 public class SaveData
 {
-    public RankSetup[] rank;
-    public PlayerType playerType;
-    public int playerId;
+    public int [] rank { get; set; }
+
+    public PlayerType playerType { get; set; }
+
+    public string playerName { get; set; }
 }

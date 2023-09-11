@@ -39,14 +39,56 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Start()
+    {
+        Init();
+    }
+
+    public void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            _saveManager.CreateSaveData();
+        }
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            _saveManager.Save();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            _saveManager.Load();
+        }
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            GameOver();
+        }
+    }
+
     private void Init()
     {
         _saveManager = new SaveManager();
         _saveManager.Init();
+
+        _playerController.onPlayerDeath += GameOver;
     }
 
-    public void Start()
+    private void GameOver()
     {
-        Init();
+        var rank = _scoreManager.GetRankNumbers();
+
+        _saveManager.SaveRankData(rank);
+
+        _uiController.OpenRankScreen(rank);
+
+    }
+
+    public void ResetGame()
+    {
+
+    }
+
+    public void OnDisable()
+    {
+        _playerController.onPlayerDeath -= GameOver;
     }
 }

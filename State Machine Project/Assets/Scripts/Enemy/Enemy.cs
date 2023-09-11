@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour, IActivate
 
     [Header("Animator")]
     public Animator animator;
-    public string _currentAnimatorState;
+    public string currentAnimatorState;
 
     [Header("Enemy settings")]
     public float distanceToLook = 15;
@@ -47,27 +47,9 @@ public class Enemy : MonoBehaviour, IActivate
     public PlayerController target;
     public bool isAttacking = false;
 
-    [Header("Patrol")]
-    public Transform patrolLocations;
-
-    #endregion
-
-    #region Private Fields
-
-    [Header("Colliders")]
-    [SerializeField]
-    private GameObject enemyCollider;
-
     [Header("Movement")]
 
     public bool isMoving = false;
-
-    private Rigidbody _rb;
-
-    [SerializeField]
-    private float speed;
-
-    private Vector3 _defaultVelocity = new Vector3(0,0,1);
 
     public HealthBase enemyHealth;
 
@@ -76,7 +58,23 @@ public class Enemy : MonoBehaviour, IActivate
     public DropItem drop;
 
     public bool IsActive { get; set; }
+
     public Vector3 SetPosition { get { return transform.position; } set { transform.position = value; } }
+
+    #endregion
+
+    #region Private Fields
+
+    [Header("Colliders")]
+    [SerializeField]
+    private GameObject _enemyCollider;
+
+    private Rigidbody _rb;
+
+    [SerializeField]
+    private float _speed;
+
+    private Vector3 _defaultVelocity = new Vector3(0,0,1);
 
     #endregion
 
@@ -110,6 +108,8 @@ public class Enemy : MonoBehaviour, IActivate
 
         enemyHealth.onDamage += Damage;
         enemyHealth.onKill += Kill;
+
+        GameManager.Instance.Player.onPlayerDeath += Stop;
 
         isMoving = false;
         isAlive = true;
@@ -158,11 +158,11 @@ public class Enemy : MonoBehaviour, IActivate
 
     public void ChangeAnimationState(string newState)
     {
-        if (_currentAnimatorState == newState) return;
+        if (currentAnimatorState == newState) return;
 
         animator.Play(Animator.StringToHash(newState));
 
-        _currentAnimatorState = newState;
+        currentAnimatorState = newState;
     }
 
     public void ChangeState(System.Enum state)
@@ -210,7 +210,7 @@ public class Enemy : MonoBehaviour, IActivate
         }
         else
         {
-            _currentAnimatorState = AnimationStates.Attack01.ToString();
+            currentAnimatorState = AnimationStates.Attack01.ToString();
 
             animator.Play(Animator.StringToHash(AnimationStates.Attack01.ToString()));
 
@@ -228,9 +228,14 @@ public class Enemy : MonoBehaviour, IActivate
 
     private void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, target.transform.position, _speed * Time.deltaTime);
 
         transform.LookAt(target.transform.position);
+    }
+
+    private void Stop()
+    {
+        isAlive = false;
     }
 
     public void OnDrawGizmos()
