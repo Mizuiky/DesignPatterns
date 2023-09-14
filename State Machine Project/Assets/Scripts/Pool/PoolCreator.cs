@@ -35,6 +35,14 @@ public class PoolCreator : MonoBehaviour
         CreatePool(enemyPool);
     }
 
+    public void Reset()
+    {
+        foreach(IActivate poolComponent in enemyPool.poolList)
+        {
+            poolComponent.OnDeactivate();
+        }
+    }
+
     private void CreatePool(Pool pool)
     {
 

@@ -25,6 +25,9 @@ public class HealthBase : MonoBehaviour, IDamageable
     public void Reset()
     {
         currentLife = startLife;
+
+        healthSlider.Reset(startLife);
+        UpdateLife();
     }
 
     public void OnKill()
@@ -52,5 +55,10 @@ public class HealthBase : MonoBehaviour, IDamageable
     private void UpdateLife()
     {
         healthSlider.UpdateSlider(currentLife);
+    }
+
+    public void KillPlayer()
+    {
+        OnDamage(100);
     }
 }

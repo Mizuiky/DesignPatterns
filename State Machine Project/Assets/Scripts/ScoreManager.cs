@@ -9,25 +9,15 @@ public class ScoreManager : MonoBehaviour
     public SOINT score;
     private int _currentScore;
 
-    private int [] _rank;
+    private Stack<int> rankStack;
 
-    void Start()
-    {
-        Init();
-    }
-
-    void Update()
-    {
-        
-    }
-
-    private void Init()
+    public void Init()
     {
 
         _currentScore = 0;
         score.value = _currentScore;
 
-        _rank = new int[3];
+        rankStack = new Stack<int>();
 
         GameManager.Instance.SaveManager.OnLoadGame += FillRank;        
     }
@@ -40,47 +30,30 @@ public class ScoreManager : MonoBehaviour
 
     private void FillRank(object sender, SaveData data)
     {
-        if(data.rank.Length > 0)
+    
+        if (data.rank.Length > 0)
         {
+
             for (int i = 0; i < data.rank.Length; i++)
             {
-                _rank[i] = data.rank[i];
+                rankStack.Push(data.rank[i]);
             }
         }     
     }
 
     public int [] GetRankNumbers()
     {
+        rankStack.Push(_currentScore);
 
-        for (int i = 0; i < _rank.Length; i++)
-        {
-            if (_rank[i] == default(int))
-            {
-                _rank[i] = _currentScore;
-                break;
-            }            
-        }
-
-        for(int i = 0; i < _rank.Length; i++)
-        {
-            if (_currentScore > _rank[i])
-            {
-                _rank[i] = _currentScore;
-                break;
-            }                     
-        }
-
-        SortRankNumbers();
-
-        return _rank;
+        return SortRankNumbers(rankStack.Distinct().ToArray());
     }
 
-    private void SortRankNumbers()
+    private int [] SortRankNumbers(int [] rank)
     {
-        if(_rank.Length > 1)
-        {
-            _rank = _rank.OrderByDescending(x => x).ToArray();
-        }       
+        //distinct : to remove duplicate values
+        rank = rank.OrderByDescending(x => x).Take(3).ToArray();
+
+        return rank;
     }
 
     public void IncreaseScore(int points)

@@ -11,12 +11,7 @@ public class SliderController : MonoBehaviour
 
     public float maxValue;
 
-    public void Start()
-    {
-        Reset();
-    }
-
-    public void Reset()
+    public void Reset(float maxValue)
     {
         slider.maxValue = maxValue;
         slider.value = maxValue;

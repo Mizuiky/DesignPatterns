@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour, IActivate
 
     public void Start()
     {
-       
+        Init();
     }
 
     public void Update()
@@ -95,30 +95,19 @@ public class Enemy : MonoBehaviour, IActivate
     public void FixedUpdate()
     {
         if(isMoving && isAlive)
+        {
+            Debug.Log("is moving");
+
             Move();
+        }
     }
 
     public void Init()
     {
         IsActive = false;
-
+     
         enemyMachine = new StateMachine();
-
         enemyMachine.Init();
-
-        enemyHealth.onDamage += Damage;
-        enemyHealth.onKill += Kill;
-
-        GameManager.Instance.Player.onPlayerDeath += Stop;
-
-        isMoving = false;
-        isAlive = true;
-
-        gameObject.SetActive(false);
-    }
-
-    public void OnActivate()
-    {
 
         enemyMachine.RegisterState(EnemyStates.IDLE, new Idle());
         enemyMachine.RegisterState(EnemyStates.NORMALIDLE, new NormalIdleState());
@@ -128,16 +117,31 @@ public class Enemy : MonoBehaviour, IActivate
         enemyMachine.RegisterState(EnemyStates.ATTACK, new AttackState());
         enemyMachine.RegisterState(EnemyStates.TAUT, new TautState());
         enemyMachine.RegisterState(EnemyStates.DEATH, new Death());
-
+        
         _rb = GetComponent<Rigidbody>();
 
         target = GameManager.Instance.Player;
 
+        isMoving = false;
+        isAlive = true;
+
+        gameObject.SetActive(false);
+    }
+
+    public void OnActivate()
+    {
+        gameObject.SetActive(true);
+
         enemyHealth.Reset();
 
-        IsActive = true;
+        enemyHealth.onDamage += Damage;
+        enemyHealth.onKill += Kill;
 
-        gameObject.SetActive(true);
+        GameManager.Instance.Player.onPlayerDeath += Stop;
+
+        IsActive = true;
+        isAlive = true;
+        isMoving = false;
 
         enemyMachine.ChangeState(EnemyStates.IDLE, this);       
     }
@@ -146,6 +150,8 @@ public class Enemy : MonoBehaviour, IActivate
     {
         enemyHealth.onDamage -= Damage;
         enemyHealth.onKill -= Kill;
+
+        GameManager.Instance.Player.onPlayerDeath -= Stop;
 
         isMoving = false;
         isAlive = false;
@@ -235,7 +241,9 @@ public class Enemy : MonoBehaviour, IActivate
 
     private void Stop()
     {
-        isAlive = false;
+        enemyMachine.ChangeState(EnemyStates.IDLE, this);
+
+        OnDeactivate();
     }
 
     public void OnDrawGizmos()

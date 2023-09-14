@@ -1038,19 +1038,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3183536739628677916}
-  _currentAnimatorState: 
+  currentAnimatorState: 
   distanceToLook: 13
   attackDistance: 2
   timeToAttack: 2
   target: {fileID: 0}
   isAttacking: 0
-  patrolLocations: {fileID: 0}
-  enemyCollider: {fileID: 3183536739619277016}
   isMoving: 0
-  speed: 2
   enemyHealth: {fileID: 7678877973092116598}
   isAlive: 0
   drop: {fileID: 2885522705096678229}
+  _enemyCollider: {fileID: 3183536739619277016}
+  _speed: 0.5
 --- !u!65 &8620934581311523857
 BoxCollider:
   m_ObjectHideFlags: 0

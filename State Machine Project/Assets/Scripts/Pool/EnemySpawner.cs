@@ -49,11 +49,16 @@ public class EnemySpawner : MonoBehaviour
 
         _currentWave = 0;
         waveTime = 0;
+    }
+
+    public void Reset()
+    {
+        Init();
 
         StartWave();
     }
 
-    private void StartWave()
+    public void StartWave()
     {
         SpawnEnemies();
     }

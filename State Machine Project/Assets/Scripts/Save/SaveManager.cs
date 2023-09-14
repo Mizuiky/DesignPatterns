@@ -33,7 +33,7 @@ public class SaveManager
             if(!File.Exists(_filePath))
             {
                 _saveData = new SaveData();
-                _saveData.rank = new int[3];
+                _saveData.rank = new int[1];
 
                 return;
             }
@@ -46,7 +46,7 @@ public class SaveManager
         Directory.CreateDirectory(_directoryPath);
 
         _saveData = new SaveData();
-        _saveData.rank = new int[3];
+        _saveData.rank = new int[1];
     }
 
     public void Load()
@@ -92,27 +92,23 @@ public class SaveManager
 
     public void SaveRankData(int [] rank)
     {
-        _saveData.rank = rank;
+        if(rank.Length > _saveData.rank.Length)
+        { 
+            int [] array = new int[rank.Length];
+
+            rank.CopyTo(array, 0);
+
+            _saveData.rank = array;
+        }
+        else
+        {
+            _saveData.rank = rank;
+        }       
     }
 
     public void SavePlayerData(string name, PlayerType type)
     {
         _saveData.playerName = name;
         _saveData.playerType = type;
-    }
-
-    public void CreateSaveData()
-    {
-        int[] rank = new int[3];
-
-        rank[0] = 100;
-
-        rank[1] = 300;
-
-        _saveData.playerName = "Inuyasha";
-        _saveData.playerType = PlayerType.Boy;
-
-        _saveData.rank = rank;
-
     }
 }

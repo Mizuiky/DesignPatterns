@@ -22,10 +22,6 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed;
     private Quaternion newRotation;
 
-    [Header("Animation")]
-
-    public Animator animator;
-
     [Header("Jump")]
 
     public float jumpForce;
@@ -33,9 +29,6 @@ public class PlayerController : MonoBehaviour
     public float gravitySpeed;
     public float _gravity;
 
-    private bool _isGrounded;
-
-    private bool _isDoubleJump;
     private bool _isJumping = true;
 
     public float maxDistance;
@@ -47,10 +40,14 @@ public class PlayerController : MonoBehaviour
 
     public Action onPlayerDeath;
 
-    public Transform resetPosition;
+    public Vector3 resetPosition;
 
-    private bool _isDead;
+    public Quaternion resetRotation;
+
+    private bool _isAlive;
     private bool _canJump;
+
+    private Animator animator;
 
     void Start()
     {
@@ -59,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(!_isDead)
+        if(_isAlive)
         {
             _horizontal = Input.GetAxis("Horizontal");
             _vertical = Input.GetAxis("Vertical");
@@ -79,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     public void FixedUpdate()
     {       
-        if(!_isDead)
+        if(_isAlive)
         {
             Move();
 
@@ -92,22 +89,41 @@ public class PlayerController : MonoBehaviour
 
     private void Init()
     {
+        animator = GetComponent<Animator>();
+
         _isJumping = false;
-        _isDead = false;
+
+        _isAlive = true;
+
+        animator.SetBool("isAlive", true);
+
         _canJump = false;
 
         playerHealth.onDamage += Damage;
         playerHealth.onKill += Kill;
+
+        resetPosition = transform.position;
+        resetRotation = transform.rotation;
+
+        Debug.Log("initial position" + resetPosition);
     }
 
     public void Reset()
     {
+    
+        _isAlive = true;
+
+        transform.position = resetPosition;
+
+        transform.rotation = resetRotation;
+
+        Invoke(nameof(EnableAnimator), 0.2f);
+
         _isJumping = false;
-        _isDead = false;
+        
         _canJump = false;
 
-        playerHealth.Reset();
-        playerHealth.transform.position = resetPosition.position;
+        playerHealth.Reset();       
     }
 
     public void OnDisable()
@@ -138,15 +154,12 @@ public class PlayerController : MonoBehaviour
 
             if (_movement == Vector3.zero)
             {
-                Debug.Log("idle");
                 animator.Play(Animator.StringToHash("Idle_Normal_SwordAndShield"));
             }
             else if (Input.GetKey(_runKey))
             {
                 _movementSpeed = runSpeed;
                 animator.speed = 1.3f;
-
-                Debug.Log("sprint");
 
                 animator.Play(Animator.StringToHash("MoveFWD_Normal_InPlace_SwordAndShield"));
             }
@@ -155,23 +168,17 @@ public class PlayerController : MonoBehaviour
                 _movementSpeed = defaultSpeed;
                 animator.speed = 1f;
 
-                Debug.Log("is running");
-
-                Debug.Log("run");
                 animator.Play(Animator.StringToHash("SprintFWD_Battle_InPlace_SwordAndShield 0"));
             }
 
             _movement *= _movementSpeed;
 
             Rotate();
-
-            //Debug.Log("movement" + _movement);
         }
 
         _movement.y = _ySpeed;
 
         rb.velocity = _movement;
-
     }
 
     #endregion
@@ -214,7 +221,7 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
 
-        if(collision.gameObject.CompareTag("Ground") && !_isDead)
+        if(collision.gameObject.CompareTag("Ground") && !_isAlive)
         {
             _isJumping = false;
             _canJump = false;
@@ -232,9 +239,30 @@ public class PlayerController : MonoBehaviour
 
     private void Kill()
     {
-        animator.Play(Animator.StringToHash("Die01_SwordAndShield"));
-        _isDead = true;
+       
+        _isAlive = false;
+
+        animator.SetBool("isAlive", false);
+
+        Invoke(nameof(DisableAnimator), 0.5f);
 
         onPlayerDeath?.Invoke();
+    }
+
+    public void KillPlayer()
+    {
+        playerHealth.KillPlayer();
+    }
+
+    private void DisableAnimator()
+    {
+        animator.enabled = false;
+    }
+
+    private void EnableAnimator()
+    {
+        animator.enabled = true;
+
+        animator.SetBool("isAlive", true);
     }
 }

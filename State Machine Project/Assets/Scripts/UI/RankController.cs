@@ -9,14 +9,20 @@ public class RankController : MonoBehaviour
 
     public Transform rankItemContainer;
 
-    private int [] rank;
+    public void Reset()
+    {
+        foreach(Transform child in rankItemContainer)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 
     public void SetRank(int [] rank)
     {
-        this.rank = rank;
 
         for (int i = 0; i < rank.Length; i++)
         {
+           
             var obj = Instantiate(rankItem, rankItemContainer);
 
             if (obj != null)

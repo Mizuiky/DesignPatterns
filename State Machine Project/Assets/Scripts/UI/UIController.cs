@@ -27,6 +27,12 @@ public class UIController : MonoBehaviour
         rankController.gameObject.SetActive(false);
     }
 
+    public void Reset()
+    {
+        Init();
+        rankController.Reset();
+    }
+
     public void OpenRankScreen(int [] rank)
     {
         rankController.gameObject.SetActive(true);
